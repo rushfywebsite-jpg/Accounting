@@ -1,0 +1,445 @@
+{
+  "settings": {
+    "seq_F": 23,
+    "seq_PUR": 24,
+    "seq_P": 2,
+    "companyName": "شركة شاطئ النخيل  AL-NAKHEEL BEACH CO",
+    "companyPhone": "07704576326",
+    "companyAddress": "بغداد - كمب سارة - قرب نادي المشرق",
+    "companyEmail": "",
+    "companyTax": "",
+    "companyReg": "",
+    "seq_V": 1
+  },
+  "users": [
+    {
+      "id": "u1",
+      "username": "faiz",
+      "password": "123",
+      "role": "Admin",
+      "name": "المدير العام"
+    },
+    {
+      "id": "mqba24oazkyhk",
+      "role": "Admin",
+      "name": "عمر",
+      "username": "عمر",
+      "password": "12"
+    }
+  ],
+  "items": [
+    {
+      "id": "mqb4l212ylvvc",
+      "code": "1",
+      "name": "حليب ميلاك",
+      "weight": 25,
+      "defaultPrice": 150000,
+      "packaging": "كيس",
+      "piecesPerCarton": 1,
+      "piecesPerBag": 1
+    },
+    {
+      "id": "mqbbacyxgrnf3",
+      "code": "2",
+      "name": "نكهة برتقال بطل",
+      "weight": 1,
+      "defaultPrice": 24000,
+      "packaging": "كرتون",
+      "piecesPerCarton": 15,
+      "piecesPerBag": 1
+    }
+  ],
+  "customers": [
+    {
+      "id": "mqb4ld8zz5pv9",
+      "balance": 500000,
+      "name": "شركة فستقة",
+      "phone": "",
+      "address": "البصرة"
+    }
+  ],
+  "suppliers": [
+    {
+      "id": "mqb4lmupt8rtu",
+      "name": "البصرة",
+      "phone": "",
+      "address": "البصرة"
+    }
+  ],
+  "warehouses": [
+    {
+      "id": "mqb4lv11mq35j",
+      "name": "كمب سارة"
+    },
+    {
+      "id": "mqbcekiqss3wa",
+      "name": "الحجز"
+    },
+    {
+      "id": "mqbcjjc5ezc83",
+      "name": "شورجة"
+    },
+    {
+      "id": "mqbcjs5a2y1v6",
+      "name": "عويريج"
+    },
+    {
+      "id": "mqbcki3j6j41g",
+      "name": "مباشر"
+    }
+  ],
+  "invoices": [
+    {
+      "id": "mqbbnk1bz9wvq",
+      "createdAt": "2026-06-12T19:30:53.615Z",
+      "type": "sales_invoice",
+      "number": "F-00020",
+      "date": "2026-06-12",
+      "dateTime": "١٢‏/٦‏/٢٠٢٦، ١٠:٣٠:٥٣ م",
+      "customerId": "mqb4ld8zz5pv9",
+      "customerName": "شركة فستقة",
+      "receiver": "شركة فستقة",
+      "paymentType": "نقدي",
+      "currency": "IQD",
+      "discountValue": 0,
+      "discountType": "amount",
+      "seller": "عمر",
+      "notes": "",
+      "items": [
+        {
+          "id": "row_1781293523017_0",
+          "itemId": "mqb4l212ylvvc",
+          "itemName": "حليب ميلاك",
+          "itemCode": "1",
+          "packaging": "كيس",
+          "weight": 25,
+          "warehouseId": "",
+          "qtyType": "كيس",
+          "quantity": 1000,
+          "unitPrice": 150000,
+          "total": 150000000,
+          "piecesPerCarton": 1,
+          "piecesPerBag": 1,
+          "_basePiecePrice": 150000
+        },
+        {
+          "id": "row_1781293523021_1",
+          "itemId": "mqbbacyxgrnf3",
+          "itemName": "نكهة برتقال بطل",
+          "itemCode": "2",
+          "packaging": "كرتون",
+          "weight": 1,
+          "warehouseId": "",
+          "qtyType": "كرتون",
+          "quantity": 1000,
+          "unitPrice": 360000,
+          "total": 360000000,
+          "piecesPerCarton": 15,
+          "piecesPerBag": 1,
+          "_basePiecePrice": 24000
+        }
+      ],
+      "total": 510000000,
+      "amountPaid": 510000000,
+      "remaining": 0,
+      "status": "مدفوعة"
+    },
+    {
+      "id": "mqbbdfu5i9w79",
+      "createdAt": "2026-06-12T19:23:01.613Z",
+      "type": "sales_invoice",
+      "number": "F-00016",
+      "date": "2026-06-12",
+      "dateTime": "١٢‏/٦‏/٢٠٢٦، ١٠:٢٣:٠١ م",
+      "customerId": "mqb4ld8zz5pv9",
+      "customerName": "شركة فستقة",
+      "receiver": "",
+      "paymentType": "آجل",
+      "currency": "IQD",
+      "discountValue": 0,
+      "discountType": "amount",
+      "seller": "المدير العام",
+      "notes": "",
+      "items": [
+        {
+          "id": "row_1781293716975_0",
+          "itemId": "mqb4l212ylvvc",
+          "itemName": "حليب ميلاك",
+          "itemCode": "1",
+          "packaging": "كيس",
+          "weight": 25,
+          "warehouseId": "mqb4lv11mq35j",
+          "qtyType": "كيس",
+          "quantity": 50,
+          "unitPrice": 150000,
+          "total": 7500000,
+          "piecesPerCarton": 1,
+          "piecesPerBag": 1,
+          "_basePiecePrice": 150000
+        }
+      ],
+      "total": 7500000,
+      "amountPaid": 0,
+      "remaining": 7500000,
+      "status": "غير مدفوعة"
+    }
+  ],
+  "vouchers": [
+    {
+      "id": "mqbbosqia307z",
+      "date": "2026-06-12",
+      "number": "00001",
+      "type": "receipt",
+      "customerId": "mqb4ld8zz5pv9",
+      "customerName": "شركة فستقة",
+      "amount": 7000000,
+      "currency": "IQD",
+      "method": "نقدي",
+      "reference": "",
+      "notes": "قبض من شركة فستقة"
+    }
+  ],
+  "stock": [
+    {
+      "id": "mqb4lv11cfu9n",
+      "itemId": "mqb4l212ylvvc",
+      "warehouseId": "mqb4lv11mq35j",
+      "qtyPieces": 0,
+      "qtyCartons": 0,
+      "qtyBags": 7750
+    },
+    {
+      "id": "mqbbacyxxc22w",
+      "itemId": "mqbbacyxgrnf3",
+      "warehouseId": "mqb4lv11mq35j",
+      "qtyPieces": 0,
+      "qtyCartons": 450,
+      "qtyBags": 0
+    },
+    {
+      "id": "mqbcekiqyo5ig",
+      "itemId": "mqb4l212ylvvc",
+      "warehouseId": "mqbcekiqss3wa",
+      "qtyPieces": 0,
+      "qtyCartons": 1000,
+      "qtyBags": 0
+    },
+    {
+      "id": "mqbcekiq3phab",
+      "itemId": "mqbbacyxgrnf3",
+      "warehouseId": "mqbcekiqss3wa",
+      "qtyPieces": 0,
+      "qtyCartons": 0,
+      "qtyBags": 0
+    },
+    {
+      "id": "mqbcjjc50amwx",
+      "itemId": "mqb4l212ylvvc",
+      "warehouseId": "mqbcjjc5ezc83",
+      "qtyPieces": 0,
+      "qtyCartons": 0,
+      "qtyBags": 0
+    },
+    {
+      "id": "mqbcjjc5y5vvh",
+      "itemId": "mqbbacyxgrnf3",
+      "warehouseId": "mqbcjjc5ezc83",
+      "qtyPieces": 0,
+      "qtyCartons": 0,
+      "qtyBags": 0
+    },
+    {
+      "id": "mqbcjs5apcakw",
+      "itemId": "mqb4l212ylvvc",
+      "warehouseId": "mqbcjs5a2y1v6",
+      "qtyPieces": 0,
+      "qtyCartons": 0,
+      "qtyBags": 0
+    },
+    {
+      "id": "mqbcjs5aanl7q",
+      "itemId": "mqbbacyxgrnf3",
+      "warehouseId": "mqbcjs5a2y1v6",
+      "qtyPieces": 0,
+      "qtyCartons": 0,
+      "qtyBags": 0
+    },
+    {
+      "id": "mqbcki3jzjhs7",
+      "itemId": "mqb4l212ylvvc",
+      "warehouseId": "mqbcki3j6j41g",
+      "qtyPieces": 0,
+      "qtyCartons": 0,
+      "qtyBags": 0
+    },
+    {
+      "id": "mqbcki3jvbgn4",
+      "itemId": "mqbbacyxgrnf3",
+      "warehouseId": "mqbcki3j6j41g",
+      "qtyPieces": 0,
+      "qtyCartons": 0,
+      "qtyBags": 0
+    }
+  ],
+  "movements": [
+    {
+      "id": "mqbch45q42xm0",
+      "date": "2026-06-12T19:53:52.718Z",
+      "itemId": "mqb4l212ylvvc",
+      "warehouseId": "mqbcekiqss3wa",
+      "type": "in",
+      "quantity": 1000,
+      "qtyType": "قطعة",
+      "reference": "نقل مخزني"
+    },
+    {
+      "id": "mqbch42v740k4",
+      "date": "2026-06-12T19:53:52.615Z",
+      "itemId": "mqb4l212ylvvc",
+      "warehouseId": "mqb4lv11mq35j",
+      "type": "out",
+      "quantity": 1000,
+      "qtyType": "قطعة",
+      "reference": "نقل مخزني"
+    },
+    {
+      "id": "mqbbj3cmebdn6",
+      "date": "2026-06-12T19:27:25.366Z",
+      "itemId": "mqbbacyxgrnf3",
+      "warehouseId": "mqb4lv11mq35j",
+      "type": "in",
+      "quantity": 450,
+      "qtyType": "كرتون",
+      "reference": "مشتريات PUR-00020",
+      "purchaseId": "mqbbj39nuxmvy"
+    },
+    {
+      "id": "mqbbdfx1jvpe7",
+      "date": "2026-06-12T19:23:01.717Z",
+      "itemId": "mqb4l212ylvvc",
+      "warehouseId": "mqb4lv11mq35j",
+      "type": "out",
+      "quantity": 50,
+      "qtyType": "كيس",
+      "reference": "فاتورة F-00016",
+      "invoiceId": "mqbbdfu5i9w79"
+    },
+    {
+      "id": "mqb4n98nyxz6i",
+      "date": "2026-06-12T16:14:42.311Z",
+      "itemId": "mqb4l212ylvvc",
+      "warehouseId": "mqb4lv11mq35j",
+      "type": "in",
+      "quantity": 8800,
+      "qtyType": "كيس",
+      "reference": "مشتريات PUR-00005",
+      "purchaseId": "mqb4n95vylxgu"
+    }
+  ],
+  "purchases": [
+    {
+      "id": "mqbbj39nuxmvy",
+      "createdAt": "2026-06-12T19:27:25.259Z",
+      "number": "PUR-00020",
+      "date": "2026-06-12",
+      "supplierId": "",
+      "supplierName": "",
+      "paymentType": "نقدي",
+      "currency": "IQD",
+      "notes": "",
+      "items": [
+        {
+          "id": "pur_row_1781292420016_0",
+          "itemId": "mqbbacyxgrnf3",
+          "itemName": "نكهة برتقال بطل",
+          "itemCode": "2",
+          "packaging": "كرتون",
+          "warehouseId": "mqb4lv11mq35j",
+          "qtyType": "كرتون",
+          "quantity": 450,
+          "unitPrice": 360000,
+          "total": 162000000,
+          "piecesPerCarton": 15,
+          "piecesPerBag": 1,
+          "_basePiecePrice": 24000
+        }
+      ],
+      "total": 162000000,
+      "amountPaid": 0,
+      "remaining": 162000000,
+      "status": "غير مدفوعة"
+    },
+    {
+      "id": "mqb4n95vylxgu",
+      "createdAt": "2026-06-12T16:14:42.211Z",
+      "number": "PUR-00005",
+      "date": "2026-06-12",
+      "supplierId": "mqb4lmupt8rtu",
+      "supplierName": "البصرة",
+      "paymentType": "نقدي",
+      "currency": "IQD",
+      "notes": "",
+      "items": [
+        {
+          "id": "pur_row_1781280859571_0",
+          "itemId": "mqb4l212ylvvc",
+          "itemName": "حليب ميلاك",
+          "itemCode": "1",
+          "packaging": "كيس",
+          "warehouseId": "mqb4lv11mq35j",
+          "qtyType": "كيس",
+          "quantity": 8800,
+          "unitPrice": 150000,
+          "total": 1320000000,
+          "piecesPerCarton": 1,
+          "piecesPerBag": 1,
+          "_basePiecePrice": 150000
+        }
+      ],
+      "total": 1320000000,
+      "amountPaid": 0,
+      "remaining": 1320000000,
+      "status": "غير مدفوعة"
+    }
+  ],
+  "cashMovements": [
+    {
+      "id": "mqbbn7jo16avr",
+      "createdAt": "2026-06-12T19:30:37.428Z",
+      "date": "2026-01-02",
+      "type": "in",
+      "currency": "USD",
+      "amount": 155000,
+      "description": "رصيد الصندوق"
+    },
+    {
+      "id": "mqbbmc0krv6ww",
+      "createdAt": "2026-06-12T19:29:56.564Z",
+      "date": "2026-01-02",
+      "type": "in",
+      "currency": "IQD",
+      "amount": 533000000,
+      "description": "رصيد الصندوق"
+    },
+    {
+      "id": "mqbbnk1c0hkdt",
+      "createdAt": "2026-06-12T19:30:53.616Z",
+      "date": "2026-06-12",
+      "type": "in",
+      "currency": "IQD",
+      "amount": 510000000,
+      "description": "فاتورة F-00020 - شركة فستقة",
+      "invoiceId": "mqbbnk1bz9wvq"
+    },
+    {
+      "id": "mqbbosqjykax4",
+      "createdAt": "2026-06-12T19:31:51.547Z",
+      "date": "2026-06-12",
+      "type": "in",
+      "currency": "IQD",
+      "amount": 7000000,
+      "description": "قبض 00001 - شركة فستقة",
+      "voucherId": "mqbbosqia307z"
+    }
+  ]
+}

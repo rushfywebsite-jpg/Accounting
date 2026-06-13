@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>نظام المحاسبة وإدارة المخازن</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { tajawal: ['Tajawal', 'sans-serif'] },
+          colors: {
+            primary: { DEFAULT: '#4f46e5', dark: '#4338ca', light: '#eef2ff' },
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ============================================================
+       LOGIN SCREEN
+       ============================================================ -->
+  <div id="loginPage" class="login-page">
+    <div class="login-card">
+      <div class="login-logo">
+        <div class="icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <h1>نظام المحاسبة والمخازن</h1>
+        <p>تسجيل الدخول إلى النظام</p>
+      </div>
+      <form id="loginForm" autocomplete="off">
+        <div class="mb-4">
+          <label class="form-label mb-1.5">اسم المستخدم</label>
+          <input type="text" id="loginUsername" class="login-input" placeholder="أدخل اسم المستخدم" required />
+        </div>
+        <div class="mb-5">
+          <label class="form-label mb-1.5">كلمة المرور</label>
+          <input type="password" id="loginPassword" class="login-input" placeholder="أدخل كلمة المرور" required />
+        </div>
+        <button type="submit" class="login-btn">دخول</button>
+        <div id="loginError" class="mt-3 text-center text-sm text-red-600 hidden"></div>
+      </form>
+      <div class="mt-4 text-center text-xs text-slate-400">
+        حساب تجريبي: admin / admin123
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       DASHBOARD LAYOUT
+       ============================================================ -->
+  <div id="dashboardApp" class="dashboard" style="display:none;">
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <h2>📊 نظام المحاسبة</h2>
+        <p>إدارة المخازن والمبيعات</p>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-item active" data-tab="sales">
+          <div class="nav-icon">💰</div>
+          <span>المبيعات</span>
+        </div>
+        <div class="nav-item" data-tab="purchases">
+          <div class="nav-icon">📥</div>
+          <span>المشتريات</span>
+        </div>
+        <div class="nav-item" data-tab="accounts">
+          <div class="nav-icon">🏦</div>
+          <span>الحسابات</span>
+        </div>
+        <div class="nav-item" data-tab="inventory">
+          <div class="nav-icon">📦</div>
+          <span>حركة المخزون</span>
+        </div>
+        <div class="nav-item" data-tab="data">
+          <div class="nav-icon">⚙️</div>
+          <span>الإضافة والتعديل</span>
+        </div>
+        <div class="nav-item" data-tab="reports">
+          <div class="nav-icon">📋</div>
+          <span>التقارير</span>
+        </div>
+        <div class="nav-item" data-tab="settings">
+          <div class="nav-icon">🏢</div>
+          <span>الشركة</span>
+        </div>
+        <div class="nav-item" data-tab="users">
+          <div class="nav-icon">👥</div>
+          <span>المستخدمين</span>
+        </div>
+        <div class="nav-item" data-tab="cash">
+          <div class="nav-icon">💵</div>
+          <span>الصندوق</span>
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <div class="user-avatar" id="sidebarAvatar">م</div>
+          <div class="user-details">
+            <div class="name" id="sidebarUserName">المستخدم</div>
+            <div class="role" id="sidebarUserRole">Admin</div>
+          </div>
+          <button class="logout-btn" id="logoutBtn" title="تسجيل الخروج">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="main-content">
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="topbar-actions">
+          <button class="menu-toggle" id="menuToggle" aria-label="فتح القائمة">☰</button>
+          <button class="theme-toggle" id="themeToggle" aria-label="الوضع الليلي" title="الوضع الليلي">🌙</button>
+        </div>
+        <div class="topbar-title" id="topbarTitle">المبيعات</div>
+      </header>
+
+      <!-- Page Content -->
+      <div class="page-content">
+
+        <!-- ============================================================
+             TAB 1: SALES (المبيعات)
+             ============================================================ -->
+        <section id="tabSales" class="tab-content active">
+
+          <!-- Document Type Switcher -->
+          <div class="flex flex-wrap items-center gap-3 mb-5">
+            <div class="section-toggle no-print" id="docTypeToggle">
+              <button class="toggle-btn active" data-doctype="sales_invoice">فاتورة مبيعات</button>
+              <button class="toggle-btn" data-doctype="proforma">فاتورة أولية</button>
+              <button class="toggle-btn" data-doctype="quotation">عرض سعر</button>
+              <button class="toggle-btn" data-doctype="return_invoice">مرتجع</button>
+            </div>
+            <span class="text-xs text-slate-400" id="docTypeLabel">نوع المستند: فاتورة مبيعات</span>
+          </div>
+
+          <!-- Sales Invoice Form -->
+          <div class="card mb-5">
+            <div class="card-header">
+              <h3 id="salesFormTitle">بيانات الفاتورة</h3>
+              <div class="flex gap-2 flex-wrap">
+                <button class="btn btn-success btn-sm" id="saveInvoiceBtn">
+                  <span>💾</span> حفظ الفاتورة
+                </button>
+                <button class="btn btn-primary btn-sm" id="printInvoiceBtn">
+                  <span>🖨️</span> طباعة
+                </button>
+                <button class="btn btn-outline btn-sm" id="newInvoiceBtn">
+                  <span>🔄</span> فاتورة جديدة
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <!-- Invoice Header Fields -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-3">
+                <div>
+                  <label class="form-label">رقم الفاتورة</label>
+                   <input type="text" id="invNumber" class="form-input form-input-sm" readonly />
+                </div>
+                <div>
+                  <label class="form-label">التاريخ</label>
+                  <input type="date" id="invDate" class="form-input form-input-sm" />
+                </div>
+                <div>
+                  <label class="form-label">اسم العميل</label>
+                  <select id="invCustomer" class="form-select form-input-sm"></select>
+                </div>
+                <div>
+                  <label class="form-label">اسم المستلم</label>
+                  <input type="text" id="invReceiver" class="form-input form-input-sm" placeholder="اسم المستلم" />
+                </div>
+                <div>
+                  <label class="form-label">نوع الدفع</label>
+                  <select id="invPaymentType" class="form-select form-input-sm">
+                    <option value="نقدي">نقدي</option>
+                    <option value="آجل">آجل</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="form-label">العملة</label>
+                  <select id="invCurrency" class="form-select form-input-sm">
+                    <option value="IQD">دينار عراقي (IQD)</option>
+                    <option value="USD">دولار (USD)</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="form-label">الخصم</label>
+                  <div class="flex gap-2">
+                    <input type="number" id="invDiscountValue" class="form-input form-input-sm flex-1" value="0" min="0" step="0.001" />
+                    <select id="invDiscountType" class="form-select form-input-sm w-20">
+                      <option value="amount">قيمة</option>
+                      <option value="percent">%</option>
+                    </select>
+                  </div>
+                </div>
+                <div>
+                  <label class="form-label">البائع</label>
+                   <input type="text" id="invSeller" class="form-input form-input-sm" readonly />
+                </div>
+              </div>
+
+              <!-- Invoice Items Table -->
+              <div class="mb-3">
+                <div class="flex items-center justify-between mb-2">
+                  <label class="form-label mb-0">بنود الفاتورة</label>
+                  <button class="btn btn-primary btn-xs" id="addInvoiceRowBtn">+ إضافة بند</button>
+                </div>
+                <div class="table-container">
+                  <table id="invoiceItemsTable" class="w-full text-sm">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>الصنف</th>
+                        <th>الكود</th>
+                        <th>التعبئة</th>
+                        <th>الوزن</th>
+                        <th>المخزن</th>
+                        <th>نوع الكمية</th>
+                        <th>الكمية</th>
+                        <th>سعر الوحدة</th>
+                        <th>المجموع</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody id="invoiceItemsBody"></tbody>
+                    <tfoot>
+                      <tr class="font-bold bg-slate-50-dark">
+                        <td colspan="9" class="text-left">المجموع الكلي:</td>
+                        <td id="invoiceTotalDisplay">0</td>
+                        <td></td>
+                      </tr>
+                      <tr class="bg-slate-50-dark">
+                        <td colspan="9" class="text-left">الوزن الكلي:</td>
+                        <td id="invoiceWeightDisplay">0</td>
+                        <td></td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Payment & Notes -->
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div>
+                  <label class="form-label">المبلغ المدفوع</label>
+                  <input type="number" id="invAmountPaid" class="form-input form-input-sm" value="0" min="0" step="0.001" />
+                </div>
+                <div>
+                  <label class="form-label">الرصيد المتبقي</label>
+                   <input type="text" id="invRemaining" class="form-input form-input-sm" readonly value="0" />
+                </div>
+                <div>
+                  <label class="form-label">ملاحظات</label>
+                  <textarea id="invNotes" class="form-textarea" rows="1" placeholder="ملاحظات..."></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Invoices List -->
+          <div class="card">
+            <div class="card-header">
+              <h3>الفاتـــورات المسجلة</h3>
+              <div class="flex gap-2 flex-wrap">
+                <input type="text" id="salesSearchInput" class="form-input form-input-sm" style="width:180px;" placeholder="بحث..." />
+                <button class="btn btn-outline btn-sm" id="refreshSalesBtn">🔄 تحديث</button>
+              </div>
+            </div>
+            <div class="card-body p-0">
+              <div class="table-container">
+                <table id="salesListTable" class="w-full">
+                  <thead>
+                    <tr>
+                      <th>رقم الفاتورة</th>
+                      <th>التاريخ</th>
+                      <th>العميل</th>
+                      <th>النوع</th>
+                      <th>المبلغ</th>
+                      <th>المدفوع</th>
+                      <th>المتبقي</th>
+                      <th>حالة الدفع</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody id="salesListBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================
+             TAB 2: PURCHASES (المشتريات)
+             ============================================================ -->
+        <section id="tabPurchases" class="tab-content">
+
+          <!-- Purchase Invoice Form -->
+          <div class="card mb-5">
+            <div class="card-header">
+              <h3 id="purchaseFormTitle">فاتورة شراء</h3>
+              <div class="flex gap-2 flex-wrap">
+                <button class="btn btn-success btn-sm" id="savePurchaseBtn">
+                  <span>💾</span> حفظ
+                </button>
+                <button class="btn btn-primary btn-sm" id="printPurchaseBtn">
+                  <span>🖨️</span> طباعة
+                </button>
+                <button class="btn btn-outline btn-sm" id="newPurchaseBtn">
+                  <span>🔄</span> مشتريات جديدة
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <!-- Purchase Header Fields -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-3">
+                <div>
+                  <label class="form-label">رقم الفاتورة</label>
+                  <input type="text" id="purNumber" class="form-input form-input-sm" readonly />
+                </div>
+                <div>
+                  <label class="form-label">التاريخ</label>
+                  <input type="date" id="purDate" class="form-input form-input-sm" />
+                </div>
+                <div>
+                  <label class="form-label">المورد</label>
+                  <select id="purSupplier" class="form-select form-input-sm"></select>
+                </div>
+                <div>
+                  <label class="form-label">نوع الدفع</label>
+                  <select id="purPaymentType" class="form-select form-input-sm">
+                    <option value="نقدي">نقدي</option>
+                    <option value="آجل">آجل</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="form-label">العملة</label>
+                  <select id="purCurrency" class="form-select form-input-sm">
+                    <option value="IQD">دينار عراقي (IQD)</option>
+                    <option value="USD">دولار (USD)</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="form-label">المبلغ المدفوع</label>
+                  <input type="number" id="purAmountPaid" class="form-input form-input-sm" value="0" min="0" step="0.001" />
+                </div>
+                <div>
+                  <label class="form-label">ملاحظات</label>
+                  <textarea id="purNotes" class="form-textarea" rows="1" placeholder="ملاحظات..."></textarea>
+                </div>
+              </div>
+
+              <!-- Purchase Items Table -->
+              <div class="mb-3">
+                <div class="flex items-center justify-between mb-2">
+                  <label class="form-label mb-0">بنود الفاتورة</label>
+                  <button class="btn btn-primary btn-xs" id="addPurchaseRowBtn">+ إضافة بند</button>
+                </div>
+                <div class="table-container">
+                  <table id="purchaseItemsTable" class="w-full text-sm">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>الصنف</th>
+                        <th>الكود</th>
+                        <th>التعبئة</th>
+                        <th>المخزن</th>
+                        <th>نوع الكمية</th>
+                        <th>الكمية</th>
+                        <th>سعر الوحدة</th>
+                        <th>المجموع</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody id="purchaseItemsBody"></tbody>
+                    <tfoot>
+                      <tr class="font-bold bg-slate-50-dark">
+                        <td colspan="8" class="text-left">المجموع الكلي:</td>
+                        <td id="purchaseTotalDisplay">0</td>
+                        <td></td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Purchases List -->
+          <div class="card">
+            <div class="card-header">
+              <h3>فواتير المشتريات</h3>
+              <div class="flex gap-2 flex-wrap">
+                <input type="text" id="purchasesSearchInput" class="form-input form-input-sm" style="width:180px;" placeholder="بحث..." />
+                <button class="btn btn-outline btn-sm" id="refreshPurchasesBtn">🔄 تحديث</button>
+              </div>
+            </div>
+            <div class="card-body p-0">
+              <div class="table-container">
+                <table id="purchasesListTable" class="w-full">
+                  <thead>
+                    <tr>
+                      <th>رقم الفاتورة</th>
+                      <th>التاريخ</th>
+                      <th>المورد</th>
+                      <th>المبلغ</th>
+                      <th>المدفوع</th>
+                      <th>المتبقي</th>
+                      <th>حالة الدفع</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody id="purchasesListBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================
+             TAB 3: ACCOUNTS (الحسابات)
+             ============================================================ -->
+        <section id="tabAccounts" class="tab-content">
+
+          <!-- Stats -->
+          <div class="stats-grid" id="accountsStats"></div>
+
+          <!-- Voucher Tabs -->
+          <div class="flex flex-wrap items-center gap-3 mb-4">
+            <div class="section-toggle no-print" id="voucherTypeToggle">
+              <button class="toggle-btn active" data-voucher="receipt">مستند قبض</button>
+              <button class="toggle-btn" data-voucher="payment">مستند صرف</button>
+              <button class="toggle-btn" data-voucher="journal">قيد آجل</button>
+            </div>
+          </div>
+
+          <!-- Receipt Voucher -->
+          <div id="voucherReceipt" class="card voucher-form active">
+            <div class="card-header"><h3>مستند قبض - تحصيل نقدي</h3></div>
+            <div class="card-body">
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label class="form-label">التاريخ</label>
+                  <input type="date" id="receiptDate" class="form-input form-input-sm" />
+                </div>
+                <div>
+                  <label class="form-label">العميل</label>
+                  <select id="receiptCustomer" class="form-select form-input-sm"></select>
+                </div>
+                <div>
+                  <label class="form-label">المبلغ</label>
+                  <input type="number" id="receiptAmount" class="form-input form-input-sm" min="0" step="0.001" />
+                </div>
+                <div>
+                  <label class="form-label">وسيلة الدفع</label>
+                  <select id="receiptMethod" class="form-select form-input-sm">
+                    <option value="نقدي">نقدي</option>
+                    <option value="شيك">شيك</option>
+                    <option value="تحويل بنكي">تحويل بنكي</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="form-label">المرجع</label>
+                  <input type="text" id="receiptRef" class="form-input form-input-sm" />
+                </div>
+                <div>
+                  <label class="form-label">العملة</label>
+                  <select id="receiptCurrency" class="form-select form-input-sm">
+                    <option value="IQD">دينار عراقي (IQD)</option>
+                    <option value="USD">دولار (USD)</option>
+                  </select>
+                </div>
+                <div class="flex items-end">
+                  <button class="btn btn-success w-full" id="saveReceiptBtn">💾 تسجيل القبض</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Payment Voucher -->
+          <div id="voucherPayment" class="card voucher-form" style="display:none;">
+            <div class="card-header"><h3>مستند صرف - دفع نقدي</h3></div>
+            <div class="card-body">
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label class="form-label">التاريخ</label>
+                  <input type="date" id="paymentDate" class="form-input form-input-sm" />
+                </div>
+                <div>
+                  <label class="form-label">المورد</label>
+                  <select id="paymentSupplier" class="form-select form-input-sm"></select>
+                </div>
+                <div>
+                  <label class="form-label">المبلغ</label>
+                  <input type="number" id="paymentAmount" class="form-input form-input-sm" min="0" step="0.001" />
+                </div>
+                <div>
+                  <label class="form-label">وسيلة الدفع</label>
+                  <select id="paymentMethod" class="form-select form-input-sm">
+                    <option value="نقدي">نقدي</option>
+                    <option value="شيك">شيك</option>
+                    <option value="تحويل بنكي">تحويل بنكي</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="form-label">العملة</label>
+                  <select id="paymentCurrency" class="form-select form-input-sm">
+                    <option value="IQD">دينار عراقي (IQD)</option>
+                    <option value="USD">دولار (USD)</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="form-label">البيان</label>
+                  <input type="text" id="paymentNotes" class="form-input form-input-sm" placeholder="سبب الدفع" />
+                </div>
+                <div class="flex items-end">
+                  <button class="btn btn-warning w-full" id="savePaymentBtn">💾 تسجيل الصرف</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Journal Voucher -->
+          <div id="voucherJournal" class="card voucher-form" style="display:none;">
+            <div class="card-header"><h3>قيد آجل - تسجيل دين</h3></div>
+            <div class="card-body">
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label class="form-label">التاريخ</label>
+                  <input type="date" id="journalDate" class="form-input form-input-sm" />
+                </div>
+                <div>
+                  <label class="form-label">العميل</label>
+                  <select id="journalCustomer" class="form-select form-input-sm"></select>
+                </div>
+                <div>
+                  <label class="form-label">المبلغ (مدين)</label>
+                  <input type="number" id="journalAmount" class="form-input form-input-sm" min="0" step="0.001" />
+                </div>
+                <div>
+                  <label class="form-label">نوع القيد</label>
+                  <select id="journalType" class="form-select form-input-sm">
+                    <option value="debit">مدين (عليه)</option>
+                    <option value="credit">دائن (له)</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="form-label">البيان</label>
+                  <input type="text" id="journalNotes" class="form-input form-input-sm" placeholder="سبب القيد" />
+                </div>
+                <div>
+                  <label class="form-label">العملة</label>
+                  <select id="journalCurrency" class="form-select form-input-sm">
+                    <option value="IQD">دينار عراقي (IQD)</option>
+                    <option value="USD">دولار (USD)</option>
+                  </select>
+                </div>
+                <div class="flex items-end">
+                  <button class="btn btn-primary w-full" id="saveJournalBtn">💾 تسجيل القيد</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Vouchers List -->
+          <div class="card mt-5">
+            <div class="card-header">
+              <h3>سجل القيود المالية</h3>
+              <button class="btn btn-outline btn-sm" id="refreshVouchersBtn">🔄 تحديث</button>
+            </div>
+            <div class="card-body p-0">
+              <div class="table-container">
+                <table id="vouchersListTable" class="w-full">
+                  <thead>
+                    <tr>
+                      <th>رقم القيد</th>
+                      <th>التاريخ</th>
+                      <th>النوع</th>
+                      <th>الطرف</th>
+                      <th>المبلغ</th>
+                      <th>البيان</th>
+                    </tr>
+                  </thead>
+                  <tbody id="vouchersListBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================
+             TAB 3: INVENTORY (حركة المخزون)
+             ============================================================ -->
+        <section id="tabInventory" class="tab-content">
+
+          <div class="stats-grid" id="inventoryStats"></div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3>المخزون الحالي</h3>
+              <div class="flex gap-2 flex-wrap items-center">
+                <select id="inventoryWarehouseFilter" class="form-select form-input-sm" style="width:200px;">
+                  <option value="">كل المخازن</option>
+                </select>
+                <button class="btn btn-outline btn-sm" id="printInventoryBtn">🖨️ طباعة</button>
+                <button class="btn btn-outline btn-sm" id="refreshInventoryBtn">🔄 تحديث</button>
+              </div>
+            </div>
+            <div class="card-body p-0">
+              <div class="table-container">
+                <table id="inventoryTable" class="w-full">
+                  <thead>
+                    <tr>
+                      <th>الكود</th>
+                      <th>الصنف</th>
+                      <th>المخزن</th>
+                      <th>قطعة</th>
+                      <th>كرتون</th>
+                      <th>كيس</th>
+                      <th>المجموع (قطعة)</th>
+                      <th>سعر الوحدة</th>
+                      <th>القيمة</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody id="inventoryBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stock Transfer -->
+          <div class="card mt-5">
+            <div class="card-header">
+              <h3>نقل مخزني</h3>
+            </div>
+            <div class="card-body">
+              <div class="grid grid-cols-1 md:grid-cols-6 gap-3 items-end">
+                <div>
+                  <label class="form-label">من مخزن</label>
+                  <select id="transferFromWarehouse" class="form-select form-input-sm"></select>
+                </div>
+                <div>
+                  <label class="form-label">إلى مخزن</label>
+                  <select id="transferToWarehouse" class="form-select form-input-sm"></select>
+                </div>
+                <div>
+                  <label class="form-label">الصنف</label>
+                  <div class="autocomplete-wrap" id="transferItemWrap">
+                    <input type="text" id="transferItemSearch" class="form-input form-input-sm" placeholder="بحث..." />
+                    <div class="autocomplete-list" id="transferItemList"></div>
+                  </div>
+                </div>
+                <div>
+                  <label class="form-label">نوع الكمية</label>
+                  <select id="transferQtyType" class="form-select form-input-sm">
+                    <option value="قطعة">قطعة</option>
+                    <option value="كرتون">كرتون</option>
+                    <option value="كيس">كيس</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="form-label">الكمية</label>
+                  <input type="number" id="transferQty" class="form-input form-input-sm" value="1" min="1" step="1" />
+                </div>
+                <div>
+                  <button class="btn btn-primary w-full" id="transferStockBtn">🔄 نقل</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Movements -->
+          <div class="card mt-5">
+            <div class="card-header">
+              <h3>حركة المخزون</h3>
+            </div>
+            <div class="card-body p-0">
+              <div class="table-container">
+                <table id="movementsTable" class="w-full">
+                  <thead>
+                    <tr>
+                      <th>التاريخ</th>
+                      <th>الصنف</th>
+                      <th>المخزن</th>
+                      <th>النوع</th>
+                      <th>الكمية</th>
+                      <th>المرجع</th>
+                    </tr>
+                  </thead>
+                  <tbody id="movementsBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================
+             TAB 4: DATA MANAGEMENT (الإضافة والتعديل)
+             ============================================================ -->
+        <section id="tabData" class="tab-content">
+
+          <div class="flex flex-wrap items-center gap-3 mb-4">
+            <div class="section-toggle no-print" id="dataToggle">
+              <button class="toggle-btn active" data-dataview="items">الأصناف</button>
+              <button class="toggle-btn" data-dataview="customers">العملاء</button>
+              <button class="toggle-btn" data-dataview="suppliers">الموردين</button>
+              <button class="toggle-btn" data-dataview="warehouses">المخازن</button>
+            </div>
+          </div>
+
+          <!-- ITEMS -->
+          <div id="dataItems" class="data-section active">
+            <div class="card">
+              <div class="card-header">
+                <h3>إدارة الأصناف</h3>
+                <button class="btn btn-primary btn-sm" id="addItemBtn">+ إضافة صنف</button>
+              </div>
+              <div class="card-body p-0">
+                <div class="table-container">
+                  <table class="w-full">
+                    <thead>
+                      <tr><th>الكود</th><th>الاسم</th><th>الوزن (كغم)</th><th>سعر القطعة</th><th>التعبئة</th><th>عدد القطع</th><th></th></tr>
+                    </thead>
+                    <tbody id="itemsDataBody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CUSTOMERS -->
+          <div id="dataCustomers" class="data-section" style="display:none;">
+            <div class="card">
+              <div class="card-header">
+                <h3>إدارة العملاء</h3>
+                <button class="btn btn-primary btn-sm" id="addCustomerBtn">+ إضافة عميل</button>
+              </div>
+              <div class="card-body p-0">
+                <div class="table-container">
+                  <table class="w-full">
+                    <thead>
+                      <tr><th>الاسم</th><th>الهاتف</th><th>العنوان</th><th>الرصيد</th><th></th></tr>
+                    </thead>
+                    <tbody id="customersDataBody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SUPPLIERS -->
+          <div id="dataSuppliers" class="data-section" style="display:none;">
+            <div class="card">
+              <div class="card-header">
+                <h3>إدارة الموردين</h3>
+                <button class="btn btn-primary btn-sm" id="addSupplierBtn">+ إضافة مورد</button>
+              </div>
+              <div class="card-body p-0">
+                <div class="table-container">
+                  <table class="w-full">
+                    <thead>
+                      <tr><th>الاسم</th><th>الهاتف</th><th>العنوان</th><th></th></tr>
+                    </thead>
+                    <tbody id="suppliersDataBody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- WAREHOUSES -->
+          <div id="dataWarehouses" class="data-section" style="display:none;">
+            <div class="card">
+              <div class="card-header">
+                <h3>إدارة المخازن</h3>
+                <button class="btn btn-primary btn-sm" id="addWarehouseBtn">+ إضافة مخزن</button>
+              </div>
+              <div class="card-body p-0">
+                <div class="table-container">
+                  <table class="w-full">
+                    <thead>
+                      <tr><th>الاسم</th><th></th></tr>
+                    </thead>
+                    <tbody id="warehousesDataBody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================
+             TAB 5: REPORTS (التقارير)
+             ============================================================ -->
+        <section id="tabReports" class="tab-content">
+
+          <div class="flex flex-wrap items-center gap-3 mb-4">
+            <div class="section-toggle no-print" id="reportsToggle">
+              <button class="toggle-btn active" data-report="sales">تقرير مبيعات</button>
+              <button class="toggle-btn" data-report="customer">كشف حساب عميل</button>
+            </div>
+          </div>
+
+          <!-- Sales Report -->
+          <div id="reportSales" class="report-section active">
+            <div class="card">
+              <div class="card-header">
+                <h3>تقرير المبيعات</h3>
+                <div class="flex gap-2 flex-wrap items-center">
+                  <input type="date" id="reportSalesFrom" class="form-input form-input-sm" style="width:140px;" />
+                  <span class="text-xs text-slate-400">إلى</span>
+                  <input type="date" id="reportSalesTo" class="form-input form-input-sm" style="width:140px;" />
+                  <select id="reportSalesCustomer" class="form-select form-input-sm" style="width:150px;">
+                    <option value="">كل العملاء</option>
+                  </select>
+                  <button class="btn btn-primary btn-sm" id="generateSalesReportBtn">عرض</button>
+                  <button class="btn btn-outline btn-sm" id="printSalesReportBtn">🖨️ طباعة</button>
+                </div>
+              </div>
+              <div class="card-body p-0">
+                <div class="table-container">
+                  <table class="w-full">
+                    <thead>
+                      <tr>
+                        <th>رقم الفاتورة</th>
+                        <th>التاريخ</th>
+                        <th>العميل</th>
+                        <th>النوع</th>
+                        <th>المجموع</th>
+                        <th>المدفوع</th>
+                        <th>المتبقي</th>
+                      </tr>
+                    </thead>
+                    <tbody id="reportSalesBody"></tbody>
+                    <tfoot>
+                      <tr class="font-bold bg-slate-50-dark">
+                        <td colspan="4" class="text-left">الإجمالي:</td>
+                        <td id="reportSalesTotal">0</td>
+                        <td id="reportSalesPaid">0</td>
+                        <td id="reportSalesRemaining">0</td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Customer Statement -->
+          <div id="reportCustomer" class="report-section" style="display:none;">
+            <div class="card">
+              <div class="card-header">
+                <h3>كشف حساب عميل</h3>
+                <div class="flex gap-2 flex-wrap items-center">
+                  <select id="reportStatementCustomer" class="form-select form-input-sm" style="width:200px;">
+                    <option value="">اختر العميل</option>
+                  </select>
+                  <select id="reportStatementCurrency" class="form-select form-input-sm" style="width:160px;">
+                    <option value="">كل العملات</option>
+                    <option value="IQD">دينار عراقي (IQD)</option>
+                    <option value="USD">دولار (USD)</option>
+                  </select>
+                  <button class="btn btn-primary btn-sm" id="generateStatementBtn">عرض</button>
+                  <button class="btn btn-outline btn-sm" id="printStatementBtn">🖨️ طباعة</button>
+                </div>
+              </div>
+              <div class="card-body" id="statementContent">
+                <div class="empty-state">
+                  <div class="empty-icon">📋</div>
+                  <p>اختر العميل لعرض كشف الحساب</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ============================================================
+             TAB 8: CASH BOX (الصندوق)
+             ============================================================ -->
+        <section id="tabCash" class="tab-content">
+          <!-- Summary -->
+          <div class="stats-grid mb-4" id="cashStats"></div>
+
+          <!-- Add Cash Entry -->
+          <div class="card mb-4">
+            <div class="card-header">
+              <h3>تسجيل حركة نقدية</h3>
+              <div class="flex gap-2">
+                <button class="btn btn-success btn-sm" id="saveCashEntryBtn">💾 تسجيل</button>
+                <button class="btn btn-outline btn-sm" id="cancelCashEditBtn" style="display:none;">❌ إلغاء</button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+                <div>
+                  <label class="form-label">التاريخ</label>
+                  <input type="date" id="cashDate" class="form-input form-input-sm" />
+                </div>
+                <div>
+                  <label class="form-label">النوع</label>
+                  <select id="cashType" class="form-select form-input-sm">
+                    <option value="in">قبض (داخل)</option>
+                    <option value="out">صرف (خارج)</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="form-label">العملة</label>
+                  <select id="cashCurrency" class="form-select form-input-sm">
+                    <option value="IQD">دينار عراقي (IQD)</option>
+                    <option value="USD">دولار (USD)</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="form-label">المبلغ</label>
+                  <input type="number" id="cashAmount" class="form-input form-input-sm" min="0" step="0.001" />
+                </div>
+                <div>
+                  <label class="form-label">البيان</label>
+                  <input type="text" id="cashDescription" class="form-input form-input-sm" placeholder="سبب الحركة" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Today's Movements -->
+          <div class="card mb-4">
+            <div class="card-header">
+              <h3>حركة اليوم</h3>
+            </div>
+            <div class="card-body p-0">
+              <div class="table-container">
+                <table class="w-full">
+                  <thead>
+                    <tr>
+                      <th>الوقت</th>
+                      <th>النوع</th>
+                      <th>العملة</th>
+                      <th>المبلغ</th>
+                      <th>البيان</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody id="cashTodayBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- All Movements -->
+          <div class="card">
+            <div class="card-header">
+              <h3>كل الحركات النقدية</h3>
+            </div>
+            <div class="card-body p-0">
+              <div class="table-container">
+                <table class="w-full">
+                  <thead>
+                    <tr>
+                      <th>التاريخ</th>
+                      <th>النوع</th>
+                      <th>العملة</th>
+                      <th>المبلغ</th>
+                      <th>البيان</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody id="cashAllBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================
+             TAB 6: SETTINGS (الشركة)
+             ============================================================ -->
+        <section id="tabSettings" class="tab-content">
+          <div class="card">
+            <div class="card-header">
+              <h3>معلومات الشركة</h3>
+              <button class="btn btn-success btn-sm" id="saveCompanyBtn">💾 حفظ</button>
+            </div>
+            <div class="card-body">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="form-label">اسم الشركة</label>
+                  <input type="text" id="companyName" class="form-input" placeholder="اسم الشركة" />
+                </div>
+                <div>
+                  <label class="form-label">الهاتف</label>
+                  <input type="text" id="companyPhone" class="form-input" placeholder="رقم الهاتف" />
+                </div>
+                <div>
+                  <label class="form-label">العنوان</label>
+                  <input type="text" id="companyAddress" class="form-input" placeholder="عنوان الشركة" />
+                </div>
+                <div>
+                  <label class="form-label">البريد الإلكتروني</label>
+                  <input type="email" id="companyEmail" class="form-input" placeholder="البريد الإلكتروني" />
+                </div>
+                <div>
+                  <label class="form-label">الرقم الضريبي</label>
+                  <input type="text" id="companyTax" class="form-input" placeholder="الرقم الضريبي" />
+                </div>
+                <div>
+                  <label class="form-label">السجل التجاري</label>
+                  <input type="text" id="companyReg" class="form-input" placeholder="رقم السجل التجاري" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ---------- Data File ---------- -->
+          <div class="card mt-4">
+            <div class="card-header">
+              <h3>ملف البيانات</h3>
+              <div class="flex gap-2">
+                <button class="btn btn-primary btn-sm" id="downloadDataBtn">📥 تصدير</button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="flex items-center gap-3 flex-wrap">
+                <button class="btn btn-secondary" id="browseDataFileBtn">📂 استيراد بيانات من ملف</button>
+                <span class="text-sm text-gray-500" id="dataFileName">لم يتم اختيار ملف</span>
+              </div>
+              <p class="text-xs text-gray-500 mt-2">البيانات محفوظة تلقائياً في المتصفح (localStorage). يمكنك تصدير نسخة احتياطية واستيرادها لاحقاً.</p>
+              <input type="file" id="dataFilePicker" accept=".json" style="display:none" />
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================================
+             TAB 7: USERS (المستخدمين)
+             ============================================================ -->
+        <section id="tabUsers" class="tab-content">
+          <div class="card">
+            <div class="card-header">
+              <h3>إدارة المستخدمين</h3>
+              <button class="btn btn-primary btn-sm" id="addUserBtn">+ إضافة مستخدم</button>
+            </div>
+            <div class="card-body p-0">
+              <div class="table-container">
+                <table class="w-full">
+                  <thead>
+                    <tr>
+                      <th>الاسم</th>
+                      <th>اسم المستخدم</th>
+                      <th>الدور</th>
+                      <th>كلمة المرور</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody id="usersBody"></tbody>
+                  <tfoot id="usersAddRow" style="display:none;">
+                    <tr>
+                      <td><input type="text" id="newUserName" class="form-input form-input-sm" placeholder="الاسم" style="width:100%;" /></td>
+                      <td><input type="text" id="newUserUsername" class="form-input form-input-sm" placeholder="اسم المستخدم" style="width:100%;" /></td>
+                      <td>
+                        <select id="newUserRole" class="form-select form-input-sm" style="width:100%;">
+                          <option value="Admin">مدير</option>
+                          <option value="Seller">بائع</option>
+                        </select>
+                      </td>
+                      <td><input type="text" id="newUserPassword" class="form-input form-input-sm" placeholder="كلمة المرور" style="width:100%;" /></td>
+                      <td>
+                        <button class="btn btn-success btn-xs" id="saveNewUserBtn">💾 حفظ</button>
+                        <button class="btn btn-outline btn-xs" id="cancelNewUserBtn">إلغاء</button>
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Reset / Clear Data -->
+          <div class="card mt-5">
+            <div class="card-header">
+              <h3>حذف البيانات</h3>
+            </div>
+            <div class="card-body">
+              <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4" id="resetDataCheckboxes">
+                <label class="flex items-center gap-2 cursor-pointer text-sm">
+                  <input type="checkbox" class="reset-cb" value="customers" checked />
+                  العملاء
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer text-sm">
+                  <input type="checkbox" class="reset-cb" value="suppliers" checked />
+                  الموردين
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer text-sm">
+                  <input type="checkbox" class="reset-cb" value="items" checked />
+                  الأصناف
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer text-sm">
+                  <input type="checkbox" class="reset-cb" value="warehouses" checked />
+                  المخازن
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer text-sm">
+                  <input type="checkbox" class="reset-cb" value="invoices" checked />
+                  الفواتير
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer text-sm">
+                  <input type="checkbox" class="reset-cb" value="vouchers" checked />
+                  المستندات
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer text-sm">
+                  <input type="checkbox" class="reset-cb" value="purchases" checked />
+                  المشتريات
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer text-sm">
+                  <input type="checkbox" class="reset-cb" value="cash" checked />
+                  الصندوق
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer text-sm">
+                  <input type="checkbox" class="reset-cb" value="stock" checked />
+                  المخزون
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer text-sm">
+                  <input type="checkbox" class="reset-cb" value="movements" checked />
+                  حركة المخزون
+                </label>
+              </div>
+              <div class="flex gap-2 flex-wrap">
+                <button class="btn btn-danger" id="resetSelectedBtn">🗑️ حذف المحدد</button>
+                <button class="btn btn-outline btn-sm" id="resetSelectAllBtn">تحديد الكل</button>
+                <button class="btn btn-outline btn-sm" id="resetUnselectAllBtn">إلغاء التحديد</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div><!-- /page-content -->
+    </main>
+  </div>
+
+  <!-- ============================================================
+       MODAL - Generic CRUD
+       ============================================================ -->
+  <div class="modal-overlay" id="crudModal">
+    <div class="modal" id="crudModalInner">
+      <div class="modal-header">
+        <h3 id="crudModalTitle">إضافة</h3>
+        <button class="modal-close" id="crudModalClose">&times;</button>
+      </div>
+      <div class="modal-body" id="crudModalBody"></div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" id="crudModalSave">💾 حفظ</button>
+        <button class="btn btn-outline" id="crudModalCancel">إلغاء</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       PRINT AREA (hidden on screen, shown in print)
+       ============================================================ -->
+  <div id="printArea" style="display:none;"></div>
+
+  <!-- ============================================================
+       SCRIPTS
+       ============================================================ -->
+  <script src="database.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
