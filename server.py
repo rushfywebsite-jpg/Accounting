@@ -28,7 +28,7 @@ cfg = load_config()
 DATA_FILE = cfg.get('dataFile') or (
     sys.argv[2] if len(sys.argv) > 2 else os.environ.get('APP_DATA_FILE', 'data.json')
 )
-PORT = int(sys.argv[1]) if len(sys.argv) > 1 else int(os.environ.get('APP_PORT', '8000'))
+PORT = int(sys.argv[1]) if len(sys.argv) > 1 else int(os.environ.get('APP_PORT', '7860'))
 _SERVER_VERSION = 0  # incremented on each save for sync polling
 
 def load_data():
